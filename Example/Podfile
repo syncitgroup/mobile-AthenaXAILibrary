@@ -1,0 +1,6 @@
+use_frameworks!
+target 'AthenaXAI_Tests' do
+  pod 'AthenaXAI', :path => '../'
+  
+  
+end
