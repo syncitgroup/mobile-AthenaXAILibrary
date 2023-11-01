@@ -96,6 +96,36 @@ public class AthenaXAI {
         }
     }
     
+    //MARK: Category Data
+    
+    public func categoryProducts(categoryId: String, level: Int, filters: [String:String]?, currentPage: Int, customerGroupId: Int, completion: @escaping (_ searchResult: LandingSearchResultDto) -> Void, fail: @escaping (_ message: String) -> Void) {
+        do {
+            let url = athenaConstants.categoryData
+            let request = ProductsSearchRequest(token: self.athenaConstants.token, category: categoryId, level: "\(level)", customerGroupId: "\(customerGroupId)")
+            request.page = "\(currentPage)"
+            var params = try request.asDictionary()
+            if let filters = filters {
+                params.merge(filters){(_, new) in new}
+            }
+            AF.request(url, method: .post, parameters: params, encoding: JSONEncoding.default, headers: self.getHeaders()).response { response in
+                print(response)
+                if let data = response.data {
+                    let decoder = JSONDecoder()
+                    do {
+                        let searchResult = try decoder.decode(LandingSearchResultDto.self, from: data)
+                        completion(searchResult)
+                    } catch {
+                        fail(error.localizedDescription)
+                    }
+                } else {
+                    fail(response.error?.localizedDescription ?? "Error")
+                }
+            }
+        } catch {
+            fail("json error when creating body")
+        }
+    }
+    
     // MARK: - Private methods
     
     private func callVisualSearchRoute(imageCache: String, customerGroupId: String, customerEmail: String, filters: [String: String]?, currentPage: Int?, completion: @escaping (_ searchResult: LandingSearchResultDto) -> Void, fail: @escaping (_ message: String) -> Void) {
