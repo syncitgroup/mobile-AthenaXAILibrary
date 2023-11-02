@@ -8,16 +8,16 @@
 import Foundation
 
 public struct PriceDto: Codable {
-    let regularPrice: Float?
-    let regularPriceWithCurrency: String?
-    let specialPrice: Float?
-    let specialPriceWithCurrency: String?
-    let loyaltyPrice: Float?
-    let loyaltyPriceWithCurrency: String?
-    let discountPercentage: Int?
-    let bestMonthPrice: Float?
-    let bestMonthPriceWithCurrency: String?
-    let customFieldPrices: CustomFieldPricesDto?
+    public let regularPrice: Float?
+    public let regularPriceWithCurrency: String?
+    public let specialPrice: Float?
+    public let specialPriceWithCurrency: String?
+    public let loyaltyPrice: Float?
+    public let loyaltyPriceWithCurrency: String?
+    public let discountPercentage: Int?
+    public let bestMonthPrice: Float?
+    public let bestMonthPriceWithCurrency: String?
+    public let customFieldPrices: CustomFieldPricesDto?
     
     enum CodingKeys: String, CodingKey {
         case regularPrice = "regular_price"
@@ -34,8 +34,8 @@ public struct PriceDto: Codable {
 }
 
 public class CustomFieldPricesDto: Codable {
-    let regular_price: String?
-    let special_price: String?
-    let loyalty_price: String?
-    let best_month_price: String?
+    public let regular_price: String?
+    public let special_price: String?
+    public let loyalty_price: String?
+    public let best_month_price: String?
 }

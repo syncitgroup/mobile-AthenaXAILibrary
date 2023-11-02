@@ -8,7 +8,7 @@
 import Foundation
 
 public struct LandingDataDto: Codable {
-    let products: ProductsDto?
+    public let products: ProductsDto?
     let modes: [ModeDto]?
     let query: String?
     let suggestedText: String?

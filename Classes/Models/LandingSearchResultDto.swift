@@ -8,8 +8,8 @@
 import Foundation
 
 public struct LandingSearchResultDto: Codable {
-    let data: LandingDataDto?
-    let position: Int?
+    public let data: LandingDataDto?
+    public let position: Int?
     
     func asDictionary() throws -> [String: Any] {
         let data = try JSONEncoder().encode(self)

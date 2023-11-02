@@ -8,32 +8,32 @@
 import Foundation
 
 public struct LandingProductDto: Codable {
-    let id: Int?
-    let name: String?
-    let link: String?
-    let productTypeID: String?
-    let description: String?
-    let shortDescription: String?
-    let availability: Int?
-    let createdAt: String?
-    let updatedAt: String?
-    let sku: String?
-    let price: PriceDto?
-    let image: String?
-    let categoryNames: [String]?
-    let metaTitle: String?
-    let fullImagePath: String?
-    let hoverImage: String?
-    let metaDescription: String?
-    let brand: BrandDto?
-    let galleryImages: [String]?
-    let configurableOptions: [SearchConfigurableOptionDto]?
-    let childProducts: [SearchChildProductDto]?
-    let attributes: [AttributeDto]?
-    let productCombinations: [ProductCombinationDto]?
-    let views: Int?
-    let type: String?
-    let category_ids: [Int]?
+    public let id: Int?
+    public let name: String?
+    public let link: String?
+    public let productTypeID: String?
+    public let description: String?
+    public let shortDescription: String?
+    public let availability: Int?
+    public let createdAt: String?
+    public let updatedAt: String?
+    public let sku: String?
+    public let price: PriceDto?
+    public let image: String?
+    public let categoryNames: [String]?
+    public let metaTitle: String?
+    public let fullImagePath: String?
+    public let hoverImage: String?
+    public let metaDescription: String?
+    public let brand: BrandDto?
+    public let galleryImages: [String]?
+    public let configurableOptions: [SearchConfigurableOptionDto]?
+    public let childProducts: [SearchChildProductDto]?
+    public let attributes: [AttributeDto]?
+    public let productCombinations: [ProductCombinationDto]?
+    public let views: Int?
+    public let type: String?
+    public let category_ids: [Int]?
     
     public func getId() -> String? {
         if let id = id {
