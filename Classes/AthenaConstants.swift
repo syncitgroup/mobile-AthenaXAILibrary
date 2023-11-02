@@ -45,6 +45,12 @@ class AthenaConstants {
         }
     }
     
+    var categoryData: String {
+        get {
+            baseApiUrl + "category/data"
+        }
+    }
+    
     var token: String {
         get {
             return _token
