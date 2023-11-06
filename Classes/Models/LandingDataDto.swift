@@ -9,6 +9,7 @@ import Foundation
 
 public struct LandingDataDto: Codable {
     public let products: ProductsDto?
+    public let sections: DataObject?
     let modes: [ModeDto]?
     let query: String?
     let suggestedText: String?
@@ -16,7 +17,7 @@ public struct LandingDataDto: Codable {
     let currentURL: String?
     let currentPath: String?
     let blog: ProductsDto?
-    let banners: [String: String]?
+//    let banners: [String: String]?
     let imageCache: String?
     
     enum CodingKeys: String, CodingKey {
