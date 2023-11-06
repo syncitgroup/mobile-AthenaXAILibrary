@@ -8,8 +8,8 @@
 import Foundation
 
 public struct AmountsDto: Codable {
-    let currentPage : Int?
-    let lastPage: Int?   
+    public let currentPage : Int?
+    public let lastPage: Int?   
     let from: Int?
     let to: Int?
     let perPage: Int?

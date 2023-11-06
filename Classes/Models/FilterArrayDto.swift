@@ -7,9 +7,9 @@
 
 import Foundation
 
-public struct FilterArrayDto: Codable {
-    private let optionValue: String?
-    private let optionKey: String?
+public class FilterArrayDto: Codable {
+    public let optionValue: String?
+    public let optionKey: String?
     public let optionLabel: String?
     public let count: Int?
     public var selected: Bool?

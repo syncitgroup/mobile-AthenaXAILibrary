@@ -126,6 +126,32 @@ public class AthenaXAI {
         }
     }
     
+    // MARK: - Search Autocomplete
+    
+    public func searchAutocomplete(query: String, customerGroupId: String, completion: @escaping (_ searchResult: LandingSearchResultDto) -> Void, fail: @escaping (_ message: String) -> Void) {
+        let url = athenaConstants.searchAutocomplete
+        do {
+            let params = try SearchBody(token: self.athenaConstants.token, q: query, customerId: customerGroupId).asDictionary()
+            AF.request(url, method: .post, parameters: params, encoding: JSONEncoding.default, headers:  self.getHeaders()).response { response in
+                print(response)
+                if let data = response.data {
+                    let decoder = JSONDecoder()
+                    do {
+                        let searchResult = try decoder.decode(SearchResult.self, from: data)
+                        completion(searchResult)
+                    } catch {
+                        print(error)
+                        fail(error.localizedDescription)
+                    }
+                } else {
+                    fail(response.error?.localizedDescription ?? "Error")
+                }
+            }
+        } catch {
+            fail("json error when creating body")
+        }
+    }
+    
     // MARK: - Private methods
     
     private func callVisualSearchRoute(imageCache: String, customerGroupId: String, customerEmail: String, filters: [String: String]?, currentPage: Int?, completion: @escaping (_ searchResult: LandingSearchResultDto) -> Void, fail: @escaping (_ message: String) -> Void) {

@@ -8,8 +8,8 @@
 import Foundation
 
 public class FilterDto: Codable {
-    var title: String? = nil
-    var type: String? = nil
+    public var title: String? = nil
+    public var type: String? = nil
     
     private var filtersSet = [FilterArrayDto]()
     public var array: [FilterArrayDto] {

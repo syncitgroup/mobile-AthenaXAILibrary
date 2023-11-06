@@ -51,6 +51,12 @@ class AthenaConstants {
         }
     }
     
+    var searchAutocomplete: String {
+        get {
+            baseApiUrl + "search/autocomplete"
+        }
+    }
+    
     var token: String {
         get {
             return _token

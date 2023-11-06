@@ -8,11 +8,11 @@
 import Foundation
 
 public struct ProductsDto: Codable {
-    let results: [LandingProductDto]?
-    let amounts: AmountsDto?
-    let activeFilters: [ActiveFilterDto]?
-    let filters: [FilterDto]?
-    let sorters: [SorterDto]?
+    public let results: [LandingProductDto]?
+    public let amounts: AmountsDto?
+    public let activeFilters: [ActiveFilterDto]?
+    public let filters: [FilterDto]?
+    public let sorters: [SorterDto]?
     let orders: [OrderDto]?
     let pager: [PagerDto]?
     let collectionPrice: CollectionPriceDto?
