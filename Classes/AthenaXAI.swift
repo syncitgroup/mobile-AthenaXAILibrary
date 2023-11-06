@@ -137,7 +137,7 @@ public class AthenaXAI {
                 if let data = response.data {
                     let decoder = JSONDecoder()
                     do {
-                        let searchResult = try decoder.decode(SearchResult.self, from: data)
+                        let searchResult = try decoder.decode(LandingSearchResultDto.self, from: data)
                         completion(searchResult)
                     } catch {
                         print(error)
