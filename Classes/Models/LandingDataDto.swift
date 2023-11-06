@@ -21,7 +21,7 @@ public struct LandingDataDto: Codable {
     let imageCache: String?
     
     enum CodingKeys: String, CodingKey {
-        case products, modes, query, blog, banners
+        case products, modes, query, blog, sections//, banners
         case suggestedText = "suggested_text"
         case usedSuggestions = "used_suggestions"
         case currentURL = "current_url"
