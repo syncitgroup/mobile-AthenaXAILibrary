@@ -17,8 +17,8 @@ public class AthenaXAI {
     
     // MARK: - Initialization
     
-    public init(_ baseUrl: String? = nil, _ accessToken: String? = nil) {
-        athenaConstants = AthenaConstants(baseUrl: baseUrl, accessToken: accessToken)
+    public init(baseUrl: String? = nil, accessToken: String? = nil, token: String? = nil) {
+        athenaConstants = AthenaConstants(baseUrl: baseUrl, accessToken: accessToken, token: token)
     }
     
     // MARK: - First click

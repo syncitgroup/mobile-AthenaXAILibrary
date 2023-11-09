@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'AthenaXAI'
-  s.version          = '0.3.8'
+  s.version          = '0.3.9'
   s.summary          = 'A short description of AthenaXAI.'
   s.swift_version    = '5.0'
 

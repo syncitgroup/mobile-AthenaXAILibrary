@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class FilterArrayDto: Codable {
+public class FilterArrayDto: Codable, Equatable {
     public let optionValue: String?
     public let optionKey: String?
     public let optionLabel: String?
@@ -19,6 +19,10 @@ public class FilterArrayDto: Codable {
     let typeId: String?
     let haxCode: String?
     let attributeId: String?
+    
+    public static func ==(lhs: FilterArrayDto, rhs: FilterArrayDto) -> Bool {
+        return lhs.optionKey == rhs.optionKey && lhs.optionValue == rhs.optionValue
+    }
     
     public var isSelected: Bool {
         get {
@@ -53,7 +57,7 @@ public class FilterArrayDto: Codable {
     private enum CodingKeys: String, CodingKey {
         case optionValue = "option_value"
         case optionKey = "option_key"
-        case optionLabel
+        case optionLabel = "option_label"
         case count
         case selected
         case url

@@ -13,10 +13,15 @@ public class FilterDto: Codable {
     
     private var filtersSet = [FilterArrayDto]()
     public var array: [FilterArrayDto] {
-        if filtersSet.count == 0 {
-            self.filtersSet = self.removeDuplicateElements()
+        get {
+            if filtersSet.count == 0 {
+                self.filtersSet = self.removeDuplicateElements()
+            }
+            return filtersSet
         }
-        return filtersSet
+        set {
+            filtersSet = newValue
+        }
     }
     private var filtersArray = [FilterArrayDto]()
     
