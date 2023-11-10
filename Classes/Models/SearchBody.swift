@@ -13,6 +13,9 @@ public class SearchBody: Codable {
     var in_results_array: Bool = true
     var customer_group_id: String?
     
+    public var product_list_limit: String = "40"
+    public var page: String?
+    
     public init(token: String, q: String, customerId: String) {
         self.token = token
         self.q = q

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Banner: Codable {
+public struct Banner: Codable {
     public var top: [BannerHtml]?
     public var bottom: [BannerHtml]?
 }

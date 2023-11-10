@@ -128,10 +128,17 @@ public class AthenaXAI {
     
     // MARK: - Search Autocomplete
     
-    public func searchAutocomplete(query: String, customerGroupId: String, completion: @escaping (_ searchResult: LandingSearchResultDto) -> Void, fail: @escaping (_ message: String) -> Void) {
+    public func searchAutocomplete(query: String, filters: [String:String]?, currentPage: Int, customerGroupId: String, completion: @escaping (_ searchResult: LandingSearchResultDto) -> Void, fail: @escaping (_ message: String) -> Void) {
         let url = athenaConstants.searchAutocomplete
         do {
-            let params = try SearchBody(token: self.athenaConstants.token, q: query, customerId: customerGroupId).asDictionary()
+            let request = SearchBody(token: self.athenaConstants.token, q: query, customerId: customerGroupId)
+            request.page = "\(currentPage)"
+            
+            var params = try request.asDictionary()
+            if let filters = filters {
+                params.merge(filters){(_, new) in new}
+            }
+            
             AF.request(url, method: .post, parameters: params, encoding: JSONEncoding.default, headers:  self.getHeaders()).response { response in
                 print(response)
                 if let data = response.data {

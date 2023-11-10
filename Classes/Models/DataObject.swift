@@ -22,10 +22,6 @@ public class DataObject: Codable {
     
     public func getSections() -> [AthenaItem] {
         var sections = [AthenaItem]()
-        if let productSection = product,
-           product?.items?.count != 0 {
-            sections.append(productSection)
-        }
         if let categorySection = category,
            category?.items?.count != 0 {
             sections.append(categorySection)
@@ -41,5 +37,8 @@ public class DataObject: Codable {
         return sections
     }
     
+    public func getProducts() -> [SearchItem] {
+        return product?.items ?? []
+    }
 }
 

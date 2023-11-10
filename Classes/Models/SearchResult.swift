@@ -13,4 +13,5 @@ public class SearchResult: Codable {
 
 public class ResultData: Codable {
     public var results: DataObject?
+    public var banners: Banner?
 }

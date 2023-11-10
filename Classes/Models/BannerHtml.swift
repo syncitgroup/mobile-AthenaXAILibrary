@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct BannerHtml: Codable {
+public struct BannerHtml: Codable {
     public var html: String?
 }
