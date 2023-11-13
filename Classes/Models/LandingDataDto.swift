@@ -17,7 +17,7 @@ public struct LandingDataDto: Codable {
     let currentURL: String?
     let currentPath: String?
     let blog: ProductsDto?
-    let banners: Banner?
+    public let banners: Banner?
     let imageCache: String?
     
     enum CodingKeys: String, CodingKey {

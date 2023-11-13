@@ -9,12 +9,14 @@ import Foundation
 
 public class DataObject: Codable {
     public var product: ProductAthenaItem?
+    public var popular: PopularSearchAthenaItem?
     public var category: CategoryAthenaItem?
     public var sectionA: SectionAthenaItem?
     public var sectionB: SectionBAthenaItem?
     
     enum CodingKeys: String, CodingKey, Codable {
         case product
+        case popular
         case category
         case sectionA = "section_a"
         case sectionB = "section_b"
@@ -22,6 +24,10 @@ public class DataObject: Codable {
     
     public func getSections() -> [AthenaItem] {
         var sections = [AthenaItem]()
+        if let popularSearchSection = popular,
+           popular?.items?.count != 0 {
+            sections.append(popularSearchSection)
+        }
         if let categorySection = category,
            category?.items?.count != 0 {
             sections.append(categorySection)
