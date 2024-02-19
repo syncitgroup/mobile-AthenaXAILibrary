@@ -8,7 +8,7 @@
 import Foundation
 
 public class SearchResult: Codable {
-    public public var data: ResultData?
+    public var data: ResultData?
 }
 
 public class ResultData: Codable {
