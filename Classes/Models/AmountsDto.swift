@@ -10,12 +10,12 @@ import Foundation
 public struct AmountsDto: Codable {
     public let currentPage : Int?
     public let lastPage: Int?   
-    let from: Int?
-    let to: Int?
-    let perPage: Int?
-    let nextPage: Int?
-    let prevPage: Int?
-    let total: Int?
+    public let from: Int?
+    public let to: Int?
+    public let perPage: Int?
+    public let nextPage: Int?
+    public let prevPage: Int?
+    public let total: Int?
     
     enum CodingKeys: String, CodingKey {
         case currentPage = "current_page"

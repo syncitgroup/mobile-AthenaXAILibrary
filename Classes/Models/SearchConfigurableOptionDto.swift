@@ -8,9 +8,9 @@
 import Foundation
 
 public struct SearchConfigurableOptionDto: Codable {
-    let attributeId: Int?
-    let attributeCode: String?
-    let options: [SearchOptionDto]?
+    public let attributeId: Int?
+    public let attributeCode: String?
+    public let options: [SearchOptionDto]?
     
     enum CodingKeys: String, CodingKey {
         case attributeId = "attribute_id"
@@ -20,11 +20,11 @@ public struct SearchConfigurableOptionDto: Codable {
 }
 
 public  struct SearchOptionDto: Codable {
-    let optionId: String?
-    let optionLabel: String?
-    let hashCode: String?
-    let optionType: String?
-    let seoValue: String?
+    public let optionId: String?
+    public let optionLabel: String?
+    public let hashCode: String?
+    public let optionType: String?
+    public let seoValue: String?
     
     enum CodingKeys: String, CodingKey {
         case optionId = "option_id"
@@ -36,7 +36,7 @@ public  struct SearchOptionDto: Codable {
 }
 
 public  struct ProductCombinationDto: Codable {
-    let colorShade: String?
+    public let colorShade: String?
     
     enum CodingKeys: String, CodingKey {
         case colorShade = "color_shade"

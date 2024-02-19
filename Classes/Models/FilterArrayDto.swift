@@ -16,9 +16,9 @@ public class FilterArrayDto: Codable, Equatable {
     public let url: String?
     public let urlPath: String?
     public let urlParams: [String: String]?
-    let typeId: String?
-    let haxCode: String?
-    let attributeId: Int?
+    public let typeId: String?
+    public let haxCode: String?
+    public let attributeId: Int?
     
     public static func ==(lhs: FilterArrayDto, rhs: FilterArrayDto) -> Bool {
         return lhs.optionKey == rhs.optionKey && lhs.optionValue == rhs.optionValue

@@ -8,13 +8,13 @@
 import Foundation
 
 public struct SearchChildProductDto: Codable {
-    let entityId: String?
-    let sku: String?
-    let image: String?
-    let colorShade: String?
-    let configurableOptions: [ChildProductConfigurableOptionDto]?
-    let stockStatus: Bool?
-    let hoverImage: String?
+    public let entityId: String?
+    public let sku: String?
+    public let image: String?
+    public let colorShade: String?
+    public let configurableOptions: [ChildProductConfigurableOptionDto]?
+    public let stockStatus: Bool?
+    public let hoverImage: String?
     
     enum CodingKeys: String, CodingKey {
         case entityId = "entity_id"
@@ -28,6 +28,6 @@ public struct SearchChildProductDto: Codable {
 }
 
 public struct ChildProductConfigurableOptionDto: Codable {
-    let type: String?
-    let value: String?
+    public let type: String?
+    public let value: String?
 }

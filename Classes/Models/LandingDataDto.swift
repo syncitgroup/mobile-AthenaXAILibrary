@@ -10,15 +10,15 @@ import Foundation
 public struct LandingDataDto: Codable {
     public let products: ProductsDto?
     public let sections: DataObject?
-    let modes: [ModeDto]?
-    let query: String?
-    let suggestedText: String?
-    let usedSuggestions: Bool?
-    let currentURL: String?
-    let currentPath: String?
-    let blog: ProductsDto?
+    public let modes: [ModeDto]?
+    public let query: String?
+    public let suggestedText: String?
+    public let usedSuggestions: Bool?
+    public let currentURL: String?
+    public let currentPath: String?
+    public let blog: ProductsDto?
     public let banners: Banner?
-    let imageCache: String?
+    public let imageCache: String?
     
     enum CodingKeys: String, CodingKey {
         case products, modes, query, blog, sections, banners

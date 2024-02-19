@@ -8,10 +8,10 @@
 import Foundation
 
 public struct BrandDto: Codable {
-    let optionID: String?
-    let id: Int?
-    let label: String?
-    let attributeCode: String?
+    public let optionID: String?
+    public let id: Int?
+    public let label: String?
+    public let attributeCode: String?
     
     enum CodingKeys: String, CodingKey {
         case optionID = "option_id"

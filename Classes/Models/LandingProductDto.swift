@@ -23,7 +23,7 @@ public struct LandingProductDto: Codable {
     public let categoryNames: [String]?
     public let metaTitle: String?
     public let fullImagePath: String?
-    public let hoverImage: String?
+//    public let hoverImage: String?
     public let metaDescription: String?
     public let brand: BrandDto?
     public let galleryImages: [String]?

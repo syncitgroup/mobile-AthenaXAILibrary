@@ -8,10 +8,10 @@
 import Foundation
 
 public class SearchBody: Codable {
-    var q: String?
-    var token: String
-    var in_results_array: Bool = true
-    var customer_group_id: String?
+    public var q: String?
+    public var token: String
+    public var in_results_array: Bool = true
+    public var customer_group_id: String?
     
     public var product_list_limit: String = "40"
     public var page: String?

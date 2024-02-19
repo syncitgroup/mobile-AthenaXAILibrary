@@ -8,10 +8,10 @@
 import Foundation
 
 public class SearchResult: Codable {
-    public var data: ResultData?
+    public public var data: ResultData?
 }
 
 public class ResultData: Codable {
-    public var results: DataObject?
-    public var banners: Banner?
+    public public var results: DataObject?
+    public public var banners: Banner?
 }

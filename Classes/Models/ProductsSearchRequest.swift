@@ -8,12 +8,12 @@
 import Foundation
 
 public class ProductsSearchRequest: Codable {
-    var token: String
-    var category: String
-    var level: String
+    public var token: String
+    public var category: String
+    public var level: String
     public var product_list_limit: String = "40"
     public var page: String?
-    var customer_group_id: String
+    public var customer_group_id: String
 //    public var campaign_id: String?
 //    public var utm_campaing: String?
     

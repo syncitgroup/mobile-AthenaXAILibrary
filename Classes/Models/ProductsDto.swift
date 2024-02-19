@@ -13,11 +13,11 @@ public struct ProductsDto: Codable {
     public let activeFilters: [ActiveFilterDto]?
     public let filters: [FilterDto]?
     public let sorters: [SorterDto]?
-    let orders: [OrderDto]?
-    let pager: [PagerDto]?
-    let collectionPrice: CollectionPriceDto?
+    public let orders: [OrderDto]?
+    public let pager: [PagerDto]?
+    public let collectionPrice: CollectionPriceDto?
 //  let visualFilter: VisualFilterDto?
-    let visualFilter: [FilterDto]?
+    public let visualFilter: [FilterDto]?
         
     enum CodingKeys: String, CodingKey {
         case results, amounts

@@ -8,12 +8,12 @@
 import Foundation
 
 public class ImageSearchBody: Codable {
-    var token: String
-    var image: String?
-    var search: Int = 0
-    var customer: String?
-    var page: String?
-    var customer_group_id: String
+    public var token: String
+    public var image: String?
+    public var search: Int = 0
+    public var customer: String?
+    public var page: String?
+    public var customer_group_id: String
     
     public init(token: String, image: String, customer: String, customerGroupId: String) {
         self.token = token

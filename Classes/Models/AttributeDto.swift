@@ -8,14 +8,14 @@
 import Foundation
 
 public struct AttributeDto: Codable {
-    let seoURL: String?   
-    let hashCode: String?   
-    let originalValue: String?   
-    let name: String?   
-    let label: String?   
-    let value: String?   
-    let parent: String?   
-    let originalParent: String?   
+    public let seoURL: String?
+    public let hashCode: String?
+    public let originalValue: String?
+    public let name: String?
+    public let label: String?
+    public let value: String?
+    public let parent: String?
+    public let originalParent: String?   
     
     enum CodingKeys: String, CodingKey {
         case seoURL = "seo_url"

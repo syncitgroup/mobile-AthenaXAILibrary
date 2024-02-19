@@ -8,10 +8,10 @@
 import Foundation
 
 public struct CollectionPriceDto: Codable {
-    let lowestPriceWithFilters: Float?
-    let highestPriceWithFilters: Float?
-    let lowestPrice: Float?
-    let highestPrice: Float?
+    public let lowestPriceWithFilters: Float?
+    public let highestPriceWithFilters: Float?
+    public let lowestPrice: Float?
+    public let highestPrice: Float?
     
     enum CodingKeys: String, CodingKey {
         case lowestPriceWithFilters = "lowest_price_with_filters"

@@ -8,13 +8,13 @@
 import Foundation
 
 public struct OrderDto: Codable {
-    let optionValue: Int?
-    let optionKey: String?
-    let optionLabel: String?   
-    let url: String?
-    let urlPath: String?
-    let urlParams: [String: String]?
-    let selected: Bool?
+    public let optionValue: Int?
+    public let optionKey: String?
+    public let optionLabel: String?   
+    public let url: String?
+    public let urlPath: String?
+    public let urlParams: [String: String]?
+    public let selected: Bool?
     
     enum CodingKeys: String, CodingKey {
         case optionValue = "option_value"

@@ -8,15 +8,15 @@
 import Foundation
 
 public struct ModeDto: Codable {
-    let name: String?
-    let type: String?
-    let optionKey: String?
-    let optionValue: String?
-    let optionLabel: String?
-    let url: String?
-    let urlPath: String?
-    let urlParams: ModeURLParams?
-    let selected: Bool?
+    public let name: String?
+    public let type: String?
+    public let optionKey: String?
+    public let optionValue: String?
+    public let optionLabel: String?
+    public let url: String?
+    public let urlPath: String?
+    public let urlParams: ModeURLParams?
+    public let selected: Bool?
     
     enum CodingKeys: String, CodingKey {
         case name, type
@@ -31,9 +31,9 @@ public struct ModeDto: Codable {
 }
 
 public struct ModeURLParams: Codable {
-    let q : String?
-    let page : String?
-    let productListMode: String?
+    public let q : String?
+    public let page : String?
+    public let productListMode: String?
     
     enum CodingKeys: String, CodingKey {
         case page, q
