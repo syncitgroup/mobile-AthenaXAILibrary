@@ -52,7 +52,7 @@ public struct LandingProductDto: Codable {
         case price, id, sku, brand, views, image
         case metaTitle = "meta_title"
         case fullImagePath = "full_image_path"
-        case hoverImage = "hover_image"
+//        case hoverImage = "hover_image"
         case productTypeID = "product_type_id"
         case metaDescription = "meta_description"
         case name, attributes
