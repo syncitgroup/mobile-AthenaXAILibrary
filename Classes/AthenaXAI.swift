@@ -78,21 +78,22 @@ public class AthenaXAI {
         if let cachedImage = imageCache.object(forKey: base64String as NSString) as String? {
             callVisualSearchRoute(imageCache: cachedImage, customerGroupId: customerGroupId, customerEmail: customerEmail, filters: filters, currentPage: currentPage, completion: completion, fail: fail)
         } else {
-//            imageProcessor.processImage(image) { processedImage in
-//                if let processedImage = processedImage {
-//                    let processedImageBase64 = self.convertToBase64(processedImage)
-                    let processedImageBase64 = self.convertToBase64(image)
-                    self.callVisualSearchRoute(imageCache: processedImageBase64, customerGroupId: customerGroupId, customerEmail: customerEmail, filters: filters, currentPage: currentPage, completion: { searchResult in
-                        if let newImageCache = searchResult.data?.imageCache {
-                            self.imageCache.setObject(newImageCache as NSString, forKey: base64String as NSString)
-                        }
-                        completion(searchResult)
-                    }, fail: fail)
-                    
-//                } else {
-//                    print("Image processing failed.")
-//                }
-//            }
+            do {
+                try imageProcessor.processImage(image) { processedImage in
+                    if let processedImage = processedImage {
+                        let processedImageBase64 = self.convertToBase64(processedImage)
+                        self.callVisualSearchRoute(imageCache: processedImageBase64, customerGroupId: customerGroupId, customerEmail: customerEmail, filters: filters, currentPage: currentPage, completion: { searchResult in
+                            if let newImageCache = searchResult.data?.imageCache {
+                                self.imageCache.setObject(newImageCache as NSString, forKey: base64String as NSString)
+                            }
+                            completion(searchResult)
+                        }, fail: fail)
+                    }
+                    fail("Image processing failed!")
+                }
+            } catch {
+                fail("Image processing failed!")
+            }
         }
     }
     

@@ -9,6 +9,11 @@ import UIKit
 //import MLKitSegmentationSelfie
 //import MLKitVision
 
+enum ProcessImageError: Error {
+    case resizeError
+    case compressError
+}
+
 class ImageProcessor {
     
     // MARK: - Properties
@@ -17,19 +22,87 @@ class ImageProcessor {
     
     // MARK: - Public methods
     
-    func processImage(_ image: UIImage, completion: @escaping (UIImage?) -> Void) {
-        Task {
-            do {
-//                let resizedImage = try await resizeImage(image)
-//                let compressedImage = try await compressImage(resizedImage)
-//                let processedImage = try await removeBackground(from: compressedImage)
-                completion(image)
-            } catch {
-                print("Image processing failed with error: \(error)")
-                completion(nil)
+    func processImage(_ image: UIImage, completion: @escaping (UIImage?) -> Void) throws {
+        var selectedImage = image
+        if let imageData = selectedImage.jpegData(compressionQuality: 1) {
+            let megaBytes = Double(imageData.count) / 1024 / 1024
+            if megaBytes > 50.0 {
+                guard let resizedImage = resizeImage(selectedImage) else {
+                    throw ProcessImageError.resizeError
+                }
+                guard let compressedImage = compressImage(resizedImage) else {
+                    throw ProcessImageError.compressError
+                }
+                selectedImage = compressedImage
             }
         }
+        completion(selectedImage)
     }
+    
+    private func resizeImage(_ image: UIImage) -> UIImage? {
+        let maxWidth: CGFloat = 1000
+        let maxHeight: CGFloat = 1000
+        
+        let size = image.size
+        let width = size.width
+        let height = size.height
+        
+        if width > height && width <= maxWidth {
+            return image
+        }
+        
+        if height > width && height <= maxHeight {
+            return image
+        }
+        
+        var newWidth: CGFloat
+        var newHeight: CGFloat
+        
+        if width > height {
+            let ratio = maxWidth / width
+            newWidth = maxWidth
+            newHeight = height * ratio
+        } else {
+            let ratio = maxHeight / height
+            newWidth = width * ratio
+            newHeight = maxHeight
+        }
+        
+        UIGraphicsBeginImageContextWithOptions(CGSize(width: newWidth, height: newHeight), false, 0.0)
+        image.draw(in: CGRect(x: 0, y: 0, width: newWidth, height: newHeight))
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        
+        return newImage
+    }
+    
+    private func compressImage(_ image: UIImage) -> UIImage? {
+        let compressionQuality: CGFloat = 0.8
+        if let imageData = image.jpegData(compressionQuality: compressionQuality) {
+            let megaBytes = Double(imageData.count) / 1024 / 1024
+            if megaBytes < 30.0 {
+                if let compressedImage = UIImage(data: imageData) {
+                    return compressedImage
+                }
+            }
+            return nil
+        }
+        return nil
+    }
+    
+//    func processImage(_ image: UIImage, completion: @escaping (UIImage?) -> Void) {
+//        Task {
+//            do {
+////                let resizedImage = try await resizeImage(image)
+////                let compressedImage = try await compressImage(resizedImage)
+////                let processedImage = try await removeBackground(from: compressedImage)
+//                completion(image)
+//            } catch {
+//                print("Image processing failed with error: \(error)")
+//                completion(nil)
+//            }
+//        }
+//    }
     
     // MARK: - Private methods
     
