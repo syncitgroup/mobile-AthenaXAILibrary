@@ -17,7 +17,7 @@ public struct ProductsDto: Codable {
     public let pager: [PagerDto]?
     public let collectionPrice: CollectionPriceDto?
 //  let visualFilter: VisualFilterDto?
-    public let visualFilter: [FilterDto]?
+    public let visualFilter: FilterDto?
         
     enum CodingKeys: String, CodingKey {
         case results, amounts
