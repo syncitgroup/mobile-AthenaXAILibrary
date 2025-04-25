@@ -9,204 +9,64 @@ import Foundation
 import Alamofire
 
 public class AthenaXAI {
-    // MARK: - Properties
-    
-    private let imageProcessor = ImageProcessor()
-    private(set) var athenaConstants: AthenaConstants!
-    private var imageCache = NSCache<NSString, NSString>()
-    
     // MARK: - Initialization
     
-    public init(baseUrl: String? = nil, accessToken: String? = nil, token: String? = nil) {
-        athenaConstants = AthenaConstants(baseUrl: baseUrl, accessToken: accessToken, token: token)
+    lazy var apiClientService: AthenaAPIClientService = {
+        let sessionManager = DefaultAthenaNetworkSessionManager(session: AthenaSharedURLSession.shared)
+        let networkManager = DefaultAthenaNetworkManager(sessionManager: sessionManager)
+        return DefaultAthenaAPIClientService(networkManager: networkManager)
+    }()
+    
+    public init(baseUrl: String, accessToken: String, token: String) {
+        AthenaConfiguration.shared.setupConfig(athenaWebsiteUrl: baseUrl, accessToken: accessToken, token: token)
     }
     
     // MARK: - First click
     
-    public func firstClick(customerGroupId: String, completion: @escaping (_ searchResult: SearchResult) -> Void, fail: @escaping (_ message: String) -> Void) {
-        let url = athenaConstants.firstClick
-        do {
-            let params = try SearchBody(token: self.athenaConstants.token, q: "", customerId: customerGroupId).asDictionary()
-            AF.request(url, method: .post, parameters: params, encoding: JSONEncoding.default, headers: self.getHeaders()).response { response in
-                
-                print(response)
-                if let data = response.data {
-                    let decoder = JSONDecoder()
-                    do {
-                        let searchResult = try decoder.decode(SearchResult.self, from: data)
-                        completion(searchResult)
-                        
-                    } catch {
-                        fail(error.localizedDescription)
-                    }
-                }
-            }
-        } catch {
-            fail("jsn error when creating body")
-        }
+    public func firstClick(query: String, token: String, customerGroupId: String) async throws -> AthenaAutocompleteResponseDTO? {
+        try await apiClientService.request(endpoint: APIEndpoints.firstClickSearch(query: query, token: token, inResultsArray: true, customerGroupId: customerGroupId))
     }
     
     // MARK: - Autocomplete
     
-    public func autocomplete(query: String, customerGroupId: String, completion: @escaping (_ searchResult: SearchResult) -> Void, fail: @escaping (_ message: String) -> Void) {
-        let url = athenaConstants.autocomplete
-        do {
-            let params = try SearchBody(token: self.athenaConstants.token, q: query, customerId: customerGroupId).asDictionary()
-            AF.request(url, method: .post, parameters: params, encoding: JSONEncoding.default, headers:  self.getHeaders()).response { response in
-                print(response)
-                if let data = response.data {
-                    let decoder = JSONDecoder()
-                    do {
-                        let searchResult = try decoder.decode(SearchResult.self, from: data)
-                        print(searchResult)
-                        completion(searchResult)
-                    } catch {
-                        print(error)
-                        fail(error.localizedDescription)
-                    }
-                }
-            }
-        } catch {
-            fail("json error when creating body")
-        }
+    public func autocomplete(query: String, token: String, customerGroupId: String) async throws -> AthenaAutocompleteResponseDTO? {
+        let response = try await apiClientService.request(endpoint: APIEndpoints.autocompleteSearch(query: query, token: token, inResultsArray: true, customerGroupId: customerGroupId))
+        return response
+    }
+    
+    // MARK: - Full Search
+    
+    public func fullSearch(query: String, token: String, search: Int, customer: String, page: String, customerGroupId: String, filters: [String : String]) async throws -> AthenaProductsListResultDTO? {
+        try await apiClientService.request(endpoint: APIEndpoints.fullSearch(token: token, query: query, search: search, customer: customer, page: page, customerGroupId: customerGroupId, filters: filters))
     }
     
     // MARK: - Visual search
     
-    public func visualSearch(image: UIImage, customerGroupId: String, customerEmail: String, filters: [String: String]?, currentPage: Int?, completion:@escaping (_ searchResult: LandingSearchResultDto) -> Void, fail: @escaping (_ message: String) -> Void) {
-        let base64String = self.convertToBase64(image)
-        if let cachedImage = imageCache.object(forKey: base64String as NSString) as String? {
-            callVisualSearchRoute(imageCache: cachedImage, customerGroupId: customerGroupId, customerEmail: customerEmail, filters: filters, currentPage: currentPage, completion: completion, fail: fail)
-        } else {
-            do {
-                try imageProcessor.processImage(image) { processedImage in
-                    if let processedImage = processedImage {
-                        let processedImageBase64 = self.convertToBase64(processedImage)
-                        self.callVisualSearchRoute(imageCache: processedImageBase64, customerGroupId: customerGroupId, customerEmail: customerEmail, filters: filters, currentPage: currentPage, completion: { searchResult in
-                            if let newImageCache = searchResult.data?.imageCache {
-                                self.imageCache.setObject(newImageCache as NSString, forKey: base64String as NSString)
-                            }
-                            completion(searchResult)
-                        }, fail: fail)
-                    }
-                    fail("Image processing failed!")
-                }
-            } catch {
-                fail("Image processing failed!")
-            }
-        }
+    public func visualSearch(image: String, token: String, customer: String, page: String, customerGroupId: String, filters: [String : String]) async throws -> AthenaProductsListResultDTO? {
+        try await apiClientService.request(endpoint: APIEndpoints.visualSearch(token: token, image: image, search: 0, customer: customer, page: page, customerGroupId: customerGroupId, filters: filters))
     }
     
     //MARK: Category Data
     
-    public func categoryProducts(categoryId: String, level: Int, filters: [String:String]?, currentPage: Int, customerGroupId: Int, completion: @escaping (_ searchResult: LandingSearchResultDto) -> Void, fail: @escaping (_ message: String) -> Void) {
-        do {
-            let url = athenaConstants.categoryData
-            let request = ProductsSearchRequest(token: self.athenaConstants.token, category: categoryId, level: "\(level)", customerGroupId: "\(customerGroupId)")
-            request.page = "\(currentPage)"
-            var params = try request.asDictionary()
-            if let filters = filters {
-                params.merge(filters){(_, new) in new}
-            }
-            AF.request(url, method: .post, parameters: params, encoding: JSONEncoding.default, headers: self.getHeaders()).response { response in
-                print(response)
-                if let data = response.data {
-                    let decoder = JSONDecoder()
-                    do {
-                        let searchResult = try decoder.decode(LandingSearchResultDto.self, from: data)
-                        completion(searchResult)
-                    } catch {
-                        fail(error.localizedDescription)
-                    }
-                } else {
-                    fail(response.error?.localizedDescription ?? "Error")
-                }
-            }
-        } catch {
-            fail("json error when creating body")
-        }
+    public func categorySearch(category: String, token: String, level: String, page: String, customerGroupId: String, campaignId: String?, utmCampaing: String?, filters: [String : String]) async throws -> AthenaProductsListResultDTO? {
+        try await apiClientService.request(endpoint: APIEndpoints.categorySearch(token: token, category: category, level: level, page: page, customerGroupId: customerGroupId, campaignId: campaignId, utmCampaing: utmCampaing, filters: filters))
     }
     
-    // MARK: - Search Autocomplete
-    
-    public func searchAutocomplete(query: String, filters: [String:String]?, currentPage: Int, customerGroupId: String, completion: @escaping (_ searchResult: LandingSearchResultDto) -> Void, fail: @escaping (_ message: String) -> Void) {
-        let url = athenaConstants.searchAutocomplete
-        do {
-            let request = SearchBody(token: self.athenaConstants.token, q: query, customerId: customerGroupId)
-            request.page = "\(currentPage)"
-            
-            var params = try request.asDictionary()
-            if let filters = filters {
-                params.merge(filters){(_, new) in new}
-            }
-            
-            AF.request(url, method: .post, parameters: params, encoding: JSONEncoding.default, headers:  self.getHeaders()).response { response in
-                print(response)
-                if let data = response.data {
-                    let decoder = JSONDecoder()
-                    do {
-                        let searchResult = try decoder.decode(LandingSearchResultDto.self, from: data)
-                        completion(searchResult)
-                    } catch {
-                        print(error)
-                        fail(error.localizedDescription)
-                    }
-                } else {
-                    fail(response.error?.localizedDescription ?? "Error")
-                }
-            }
-        } catch {
-            fail("json error when creating body")
-        }
+    //MARK: Attribute Options
+    public func getAttributeOptionsByCode(token: String, code: String) async throws -> AthenaAttributeResponseDTO? {
+        try await apiClientService.request(endpoint: APIEndpoints.getAttributeOptionsByCode(token: token, code: code))
     }
     
-    // MARK: - Private methods
-    
-    private func callVisualSearchRoute(imageCache: String, customerGroupId: String, customerEmail: String, filters: [String: String]?, currentPage: Int?, completion: @escaping (_ searchResult: LandingSearchResultDto) -> Void, fail: @escaping (_ message: String) -> Void) {
-        let url = athenaConstants.visualSimilaritySearch
-        do {
-            let imageSearchBody = ImageSearchBody(token: self.athenaConstants.token, image: imageCache, customer: customerEmail, customerGroupId: customerGroupId)
-            if let page = currentPage {
-                imageSearchBody.page = "\(page)"
-            }
-            var params = try imageSearchBody.asDictionary()
-            if let filters = filters {
-                params.merge(filters){(_, new) in new}
-            }
-            AF.request(url, method: .post, parameters: params, encoding: JSONEncoding.default, headers: self.getHeaders()).response { response in
-                print(response)
-                if let data = response.data {
-                    let decoder = JSONDecoder()
-                    do {
-                        let searchResult = try decoder.decode(LandingSearchResultDto.self, from: data)
-                        completion(searchResult)
-                    } catch {
-                        print(error)
-                        fail(error.localizedDescription)
-                    }
-                } else {
-                    fail(response.error?.localizedDescription ?? "Error")
-                }
-            }
-        } catch {
-            fail("json error when creating body")
-        }
+    //MARK: Analytics
+    public func sendProductClickToAthenaAnalytics(token: String?, productId: String?, type: AthenaProductClickType?, searchKeywords: String?, customer: String?, source: String?, channel: String?) async throws -> AthenaMessageResponseDTO {
+        return try await apiClientService.request(endpoint: APIEndpoints.athenaAnalyticsProductClick(token: token, productId: productId, type: type, searchKeywords: searchKeywords, customer: customer, source: source, channel: channel))
     }
     
-    private func convertToBase64(_ image: UIImage) -> String {
-        let base64String = image.jpegData(compressionQuality: 1)?.base64EncodedString() ?? ""
-        return base64String
+    public func sendAddToCartToAthenaAnalytics(oId: String, token: String?, userToken: String, source: String?, channel: String?) async throws -> AthenaMessageResponseDTO {
+        return try await apiClientService.request(endpoint: APIEndpoints.athenaAnalyticsConversionCart(oId: oId, token: token, userToken: userToken, source: source, channel: channel))
     }
     
-    private func getHeaders() -> HTTPHeaders {
-        let headers: HTTPHeaders = [
-            "Authorization": "Bearer \(athenaConstants.accessToken)",
-            "Accept": "application/json",
-            "Content-Type" : "application/json",
-            "Client-Source":"Mobile App",
-            "Device":"Mobile",
-            "Platform": "iOS"
-        ]
-        return headers
+    public func sendOrderToAthenaAnalytics(athenaAnalyticOrderBody: AthenaAnalyticOrderBodyDTO) async throws -> AthenaMessageResponseDTO {
+        return try await apiClientService.request(endpoint: APIEndpoints.athenaAnalyticsConversionOrder(athenaAnalyticOrderBody: athenaAnalyticOrderBody))
     }
 }

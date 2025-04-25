@@ -1,0 +1,13 @@
+//
+//  AthenaProductsListResultDTO.swift
+//  Pods
+//
+//  Created by Nemanja Cvetkovic on 23.4.25..
+//
+
+import Foundation
+
+public struct AthenaProductsListResultDTO: Codable {
+    public let data: AthenaProductsListDataDTO?
+    public let error: String?
+}

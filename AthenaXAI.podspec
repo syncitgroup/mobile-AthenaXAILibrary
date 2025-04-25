@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'AthenaXAI'
-  s.version          = '0.4.7'
+  s.version          = '0.4.8'
   s.summary          = 'A short description of AthenaXAI.'
   s.swift_version    = '5.0'
 
@@ -41,9 +41,7 @@ TODO: Add long description of the pod here.
   # }
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
-  # s.frameworks = 'UIKit', 'MapKit'
-  # s.dependency 'AFNetworking', '~> 2.3'
+  # s.frameworks = 'MapKit'
   
-  s.frameworks = 'UIKit', 'Foundation'
-  s.dependency 'Alamofire'
+  s.frameworks = 'Foundation'
 end
