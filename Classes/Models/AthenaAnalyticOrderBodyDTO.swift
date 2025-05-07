@@ -11,14 +11,10 @@ public struct AthenaAnalyticOrderBodyDTO: Codable {
     public let token: String?
     public let userToken: String?
     public let order: AthenaAnalyticOrderDTO?
-    public let source: String?
-    public let channel: String?
     
-    public init(token: String?, userToken: String?, order: AthenaAnalyticOrderDTO?, source: String?, channel: String?) {
+    public init(token: String?, userToken: String?, order: AthenaAnalyticOrderDTO?) {
         self.token = token
         self.userToken = userToken
         self.order = order
-        self.source = source
-        self.channel = channel
     }
 }

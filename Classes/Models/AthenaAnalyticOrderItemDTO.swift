@@ -17,8 +17,10 @@ public struct AthenaAnalyticOrderItemDTO: Codable {
     public let priceWithQtyInclTax: Float?
     public let price: Float?
     public let rowTotal: Float?
+    public let source: String?
+    public let channel: String?
     
-    public init(name: String?, id: String?, sku: String?, type: String?, qty: Int?, priceInclTax: Float?, priceWithQtyInclTax: Float?, price: Float?, rowTotal: Float?) {
+    public init(name: String?, id: String?, sku: String?, type: String?, qty: Int?, priceInclTax: Float?, priceWithQtyInclTax: Float?, price: Float?, rowTotal: Float?, source: String?, channel: String?) {
         self.name = name
         self.id = id
         self.sku = sku
@@ -28,6 +30,8 @@ public struct AthenaAnalyticOrderItemDTO: Codable {
         self.priceWithQtyInclTax = priceWithQtyInclTax
         self.price = price
         self.rowTotal = rowTotal
+        self.source = source
+        self.channel = channel
     }
     
     private enum CodingKeys: String, CodingKey {
@@ -40,5 +44,7 @@ public struct AthenaAnalyticOrderItemDTO: Codable {
         case priceWithQtyInclTax = "price_with_qty_incl_tax"
         case price
         case rowTotal = "row_total"
+        case source
+        case channel
     }
 }
