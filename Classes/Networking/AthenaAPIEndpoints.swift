@@ -93,11 +93,17 @@ public enum APIEndpoints {
             "token" : token,
             "category" : category,
             "level" : level,
-            "page" : page,
-            "customer_group_id" : customerGroupId,
-            "campaign_id" : campaignId,
-            "utm_campaing" : utmCampaing
+            "customer_group_id" : customerGroupId
         ]
+        if page != "" {
+            parameters["page"] = page
+        }
+        if campaignId != nil {
+            parameters["campaign_id"] = campaignId
+        }
+        if utmCampaing != nil {
+            parameters["utm_campaing]"] = utmCampaing
+        }
         if let filters = filters {
             parameters.merge(filters, uniquingKeysWith: { _, new in  new })
         }
