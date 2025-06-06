@@ -57,8 +57,8 @@ public class AthenaXAI {
     }
     
     //MARK: Analytics
-    public func sendProductClickToAthenaAnalytics(token: String?, productId: String?, type: AthenaProductClickType?, searchKeywords: String?, customer: String?, source: String?, channel: String?) async throws -> AthenaMessageResponseDTO {
-        return try await apiClientService.request(endpoint: APIEndpoints.athenaAnalyticsProductClick(token: token, productId: productId, type: type, searchKeywords: searchKeywords, customer: customer, source: source, channel: channel))
+    public func sendProductClickToAthenaAnalytics(token: String?, productId: String?, type: AthenaProductClickType?, searchKeywords: String?, customer: String?, userToken: String?, source: String?, channel: String?) async throws -> AthenaMessageResponseDTO {
+        return try await apiClientService.request(endpoint: APIEndpoints.athenaAnalyticsProductClick(token: token, productId: productId, type: type, searchKeywords: searchKeywords, customer: customer, userToken: userToken, source: source, channel: channel))
     }
     
     public func sendAddToCartToAthenaAnalytics(oId: String, token: String?, userToken: String, source: String?, channel: String?) async throws -> AthenaMessageResponseDTO {

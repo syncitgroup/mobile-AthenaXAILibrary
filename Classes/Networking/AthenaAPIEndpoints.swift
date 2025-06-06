@@ -116,13 +116,14 @@ public enum APIEndpoints {
     }
     
     //MARK: Athena analytics
-    static func athenaAnalyticsProductClick(token: String?, productId: String?, type: AthenaProductClickType?, searchKeywords: String?, customer: String?, source: String?, channel: String?) -> AthenaAPIEndpoint<AthenaMessageResponseDTO> {
+    static func athenaAnalyticsProductClick(token: String?, productId: String?, type: AthenaProductClickType?, searchKeywords: String?, customer: String?, userToken: String?, source: String?, channel: String?) -> AthenaAPIEndpoint<AthenaMessageResponseDTO> {
         let parameters: [String : Any] = [
             "token" : token,
             "productId" : productId,
             "type" : type?.rawValue,
             "searchKeywords" : searchKeywords,
             "customer" : customer,
+            "userToken" : userToken,
             "source" : source,
             "channel" : channel
         ]
