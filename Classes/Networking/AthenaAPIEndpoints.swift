@@ -33,12 +33,13 @@ public enum APIEndpoints {
         )
     }
     
-    static func autocompleteSearch(query: String, token: String, inResultsArray: Bool? = true, customerGroupId: String) -> AthenaAPIEndpoint<AthenaAutocompleteResponseDTO> {
+    static func autocompleteSearch(query: String, token: String, inResultsArray: Bool? = true, customerGroupId: String, isVoiceSearch: Bool) -> AthenaAPIEndpoint<AthenaAutocompleteResponseDTO> {
         let parameters: [String : Any] = [
             "q" : query,
             "token" : token,
             "in_results_array" : inResultsArray,
-            "customer_group_id" : customerGroupId
+            "customer_group_id" : customerGroupId,
+            "is_voice_search" : isVoiceSearch
         ]
         
         return .init(path: "autocomplete",
@@ -48,14 +49,15 @@ public enum APIEndpoints {
         )
     }
     
-    static func fullSearch(token: String, query: String, search: Int? = 0, customer: String, page: String, customerGroupId: String, filters: [String: String]?) -> AthenaAPIEndpoint<AthenaProductsListResultDTO> {
+    static func fullSearch(token: String, query: String, search: Int? = 0, customer: String, page: String, customerGroupId: String, isVoiceSearch: Bool, filters: [String: String]?) -> AthenaAPIEndpoint<AthenaProductsListResultDTO> {
         var parameters: [String : Any] = [
             "token" : token,
             "q" : query,
             "search" : search,
             "customer" : customer,
             "page" : page,
-            "customer_group_id" : customerGroupId
+            "customer_group_id" : customerGroupId,
+            "is_voice_search" : isVoiceSearch
         ]
         if let filters = filters {
             parameters.merge(filters, uniquingKeysWith: { _, new in  new })

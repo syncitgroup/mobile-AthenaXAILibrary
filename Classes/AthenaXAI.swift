@@ -28,15 +28,15 @@ public class AthenaXAI {
     
     // MARK: - Autocomplete
     
-    public func autocomplete(query: String, token: String, customerGroupId: String) async throws -> AthenaAutocompleteResponseDTO? {
-        let response = try await apiClientService.request(endpoint: APIEndpoints.autocompleteSearch(query: query, token: token, inResultsArray: true, customerGroupId: customerGroupId))
+    public func autocomplete(query: String, token: String, customerGroupId: String, isVoiceSearch: Bool) async throws -> AthenaAutocompleteResponseDTO? {
+        let response = try await apiClientService.request(endpoint: APIEndpoints.autocompleteSearch(query: query, token: token, inResultsArray: true, customerGroupId: customerGroupId, isVoiceSearch: isVoiceSearch))
         return response
     }
     
     // MARK: - Full Search
     
-    public func fullSearch(query: String, token: String, search: Int, customer: String, page: String, customerGroupId: String, filters: [String : String]) async throws -> AthenaProductsListResultDTO? {
-        try await apiClientService.request(endpoint: APIEndpoints.fullSearch(token: token, query: query, search: search, customer: customer, page: page, customerGroupId: customerGroupId, filters: filters))
+    public func fullSearch(query: String, token: String, search: Int, customer: String, page: String, customerGroupId: String, isVoiceSearch: Bool, filters: [String : String]) async throws -> AthenaProductsListResultDTO? {
+        try await apiClientService.request(endpoint: APIEndpoints.fullSearch(token: token, query: query, search: search, customer: customer, page: page, customerGroupId: customerGroupId, isVoiceSearch: isVoiceSearch, filters: filters))
     }
     
     // MARK: - Visual search
